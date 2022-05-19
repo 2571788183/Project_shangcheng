@@ -1,3 +1,4 @@
+
 <template>
   <div>
     我是搜索
@@ -8,8 +9,9 @@
 
 
 <script>
+//暴露组件
 export default {
-  name: '',
+  name: 'search',
 }
 </script>
 

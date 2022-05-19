@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div>
     <MyHeader></MyHeader>
     <!-- 路由组件出口 -->
@@ -6,7 +6,6 @@
     <!-- 在Home、Search显示，在登陆注册隐藏,通过路由路径实现 -->
     <!-- <MyFooter v-show="$route.path == '/home' || $route.path == '/search'"></MyFooter> -->
     <MyFooter v-show="$route.meta.showFooter"></MyFooter>
-
   </div>
 </template>
 
@@ -14,6 +13,7 @@
 import MyHeader from './components/MyHeader'
 import MyFooter from './components/MyFooter'
 
+//注册组件
 export default {
   name: 'App',
   components: {
