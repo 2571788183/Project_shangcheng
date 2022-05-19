@@ -7,7 +7,8 @@ import nprogress from "nprogress";
 import "nprogress/nprogress.css";
 
 //利用axios对象方法create，去创建一个axios实例
-//request就是axios，只不过稍微配置下
+
+//requests就是axios，只不过稍微配置下
 const requests = axios.create({
   //配置对象
   //基础路径，发请求的时候，路径当中会出现api
@@ -30,7 +31,7 @@ requests.interceptors.response.use((res) => {
   return res.data;
 
 }, (error) => {
-  // return promise.reject(new Error('faile'));
+  // return Promise.reject(new Error('faile'));
 });
 
 //对外暴露

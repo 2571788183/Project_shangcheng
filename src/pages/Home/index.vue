@@ -21,6 +21,7 @@ import Rank from '@/pages/Home/Rank';
 import Like from '@/pages/Home/Like';
 import Floor from '@/pages/Home/Floor';
 import Brand from '@/pages/Home/Brand';
+import TypeNav from '@/components/TypeNav';
 
 export default {
   name: "",
@@ -30,7 +31,8 @@ export default {
     Rank,
     Like,
     Floor,
-    Brand
+    Brand,
+    TypeNav,
   },
 
 }

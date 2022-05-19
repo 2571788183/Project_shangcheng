@@ -12,16 +12,22 @@
 <script>
 import MyHeader from './components/MyHeader'
 import MyFooter from './components/MyFooter'
+import TypeNav from './components/TypeNav'
 
 //注册组件
 export default {
   name: 'App',
   components: {
     MyFooter,
-    MyHeader
-
+    MyHeader,
+    TypeNav
+  },
+  mounted() {
+    //派发一个action||获取商品分类的三级列表的数据
+    // this.$store.dispatch("getCategoryList");
   }
 }
+
 </script>
 
 <style>

@@ -5,4 +5,4 @@ import requests from "./request";
 //  /api/product/getBaseCategoryList  get 无参数
 
 //发请求:axios发请求返回结果是Promise对象
-export const reqCategoryList = () => requests({ url: '/product/getBaseCategoryList', method: 'GET' });
+export const reqCategoryList = () => requests({ url: '/product/getBaseCategoryList', method: 'get' });
