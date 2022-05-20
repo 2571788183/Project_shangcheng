@@ -58,13 +58,14 @@ export default {
     return {
       //当前这个属性决定了到底那个h3身上有类名
       currentIndex: -1,
+      //指定展示为真
       show: true,
     };
   },
   //发请求经常在mounted生命周期函数中进行
   //组件挂载完毕
   mounted() {
-    this.$store.dispatch('categoryList');
+
     //当组件挂载完毕，让show属性变为false
     //如果不是Home路由组件，将typeNav进行隐藏
     if (this.$route.path != "/home") {
@@ -268,6 +269,7 @@ export default {
     // 过渡动画结束状态（进入）
     .sort-enter-to {
       height: 461px;
+      // transform: rotate(360deg);
     }
 
     // 定义动画时间、速率
