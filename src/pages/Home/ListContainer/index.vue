@@ -103,14 +103,18 @@
 
 <script>
 import { mapState } from 'vuex';
+<<<<<<< HEAD
 
 //引入swiper(轮播图)
 import Swiper from 'swiper';
+=======
+>>>>>>> main
 export default {
   name: 'ListContainer',
   mounted() {
     //派发action：通过Vuex发起ajax请求，将数据存储在仓库之中
     this.$store.dispatch('getBannerList');
+<<<<<<< HEAD
     setTimeout(() => {
       //当页面中的结构已经有的话，你再初始化swiper
       //=================================================================
@@ -131,6 +135,9 @@ export default {
     }, 1000)
   },
 
+=======
+  },
+>>>>>>> main
   computed: {
     ...mapState({
       bannerList: state => state.home.bannerList
