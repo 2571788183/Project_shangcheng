@@ -115,7 +115,7 @@ export default {
         } else {
           query.category3Id = category3id;
         }
-        //判断：如果路由跳转的时候，带有params参数，捎带脚传递过去
+        //判断：如果路由跳转的时候，带有params参数，捎带着传递过去
         if (this.$route.params) {
           loction.params = this.$route.params;
           //动态给location配置对象添加query属性

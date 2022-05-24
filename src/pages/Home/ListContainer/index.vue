@@ -5,18 +5,9 @@
         <!--banner轮播-->
         <div class="swiper-container" id="mySwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
+            <div class="swiper-slide" v-for="(carousel, index) in bannerList" :key="carousel.id">
+              <img :src="carousel.imgUrl" />
             </div>
-            <!-- <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner4.jpg" />
-            </div> -->
           </div>
           <!-- 如果需要分页器 -->
           <div class="swiper-pagination"></div>
@@ -111,8 +102,40 @@
 
 
 <script>
+import { mapState } from 'vuex';
+
+//引入swiper(轮播图)
+import Swiper from 'swiper';
 export default {
   name: 'ListContainer',
+  mounted() {
+    //派发action：通过Vuex发起ajax请求，将数据存储在仓库之中
+    this.$store.dispatch('getBannerList');
+    setTimeout(() => {
+      //当页面中的结构已经有的话，你再初始化swiper
+      //=================================================================
+      //这里犯了相当多的错误,在使用类之前啊，需要用.swiper-container
+      //放置的位置也需要十分的考究，要在DOM挂载完毕之后（有结构才能生效）
+      var mySwiper = new Swiper('.swiper-container', {
+        loop: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        //如需要后退按钮
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        }
+      })
+    }, 1000)
+  },
+
+  computed: {
+    ...mapState({
+      bannerList: state => state.home.bannerList
+    })
+  }
 }
 </script>
 
@@ -167,121 +190,121 @@ export default {
           .bold {
             font-weight: 700;
           }
+        }
+      }
 
-          .lifeservices {
-            border-right: 1px solid #e4e4e4;
-            overflow: hidden;
-            display: flex;
-            flex-wrap: wrap;
+      .lifeservices {
+        border-right: 1px solid #e4e4e4;
+        overflow: hidden;
+        display: flex;
+        flex-wrap: wrap;
 
-            .life-item {
-              border-left: 1px solid #e4e4e4;
-              border-bottom: 1px solid #e4e4e4;
-              margin-right: -1px;
-              height: 64px;
-              text-align: center;
-              position: relative;
-              cursor: pointer;
-              width: 25%;
+        .life-item {
+          border-left: 1px solid #e4e4e4;
+          border-bottom: 1px solid #e4e4e4;
+          margin-right: -1px;
+          height: 64px;
+          text-align: center;
+          position: relative;
+          cursor: pointer;
+          width: 25%;
 
-              .list-item {
-                background-image: url(~@/pages/Home/ListContainer/images/icons.png);
-                width: 61px;
-                height: 40px;
-                display: block;
-              }
+          .list-item {
+            background-image: url(~@/pages/Home/ListContainer/images/icons.png);
+            width: 61px;
+            height: 40px;
+            display: block;
+          }
 
-              .service-intro {
-                line-height: 22px;
-                width: 60px;
-                display: block;
-              }
+          .service-intro {
+            line-height: 22px;
+            width: 60px;
+            display: block;
+          }
 
-              &:nth-child(1) {
-                .list-item {
-                  background-position: 0px -5px;
-                }
-              }
-
-              &:nth-child(2) {
-                .list-item {
-                  background-position: -62px -5px;
-                }
-              }
-
-              &:nth-child(3) {
-                .list-item {
-                  background-position: -126px -5px;
-                }
-              }
-
-              &:nth-child(4) {
-                .list-item {
-                  background-position: -190px -5px;
-                }
-              }
-
-              &:nth-child(5) {
-                .list-item {
-                  background-position: 0px -76px;
-                }
-              }
-
-              &:nth-child(6) {
-                .list-item {
-                  background-position: -62px -76px;
-                }
-              }
-
-              &:nth-child(7) {
-                .list-item {
-                  background-position: -126px -76px;
-                }
-              }
-
-              &:nth-child(8) {
-                .list-item {
-                  background-position: -190px -76px;
-                }
-              }
-
-              &:nth-child(9) {
-                .list-item {
-                  background-position: 0px -146px;
-                }
-              }
-
-              &:nth-child(10) {
-                .list-item {
-                  background-position: -62px -146px;
-                }
-              }
-
-              &:nth-child(11) {
-                .list-item {
-                  background-position: -126px -146px;
-                }
-              }
-
-              &:nth-child(12) {
-                .list-item {
-                  background-position: -190px -146px;
-                }
-              }
+          &:nth-child(1) {
+            .list-item {
+              background-position: 0px -5px;
             }
           }
 
-          .ads {
-            margin-top: 5px;
-
-            img {
-              opacity: 0.8;
-              transition: all 400ms;
-
-              &:hover {
-                opacity: 1;
-              }
+          &:nth-child(2) {
+            .list-item {
+              background-position: -62px -5px;
             }
+          }
+
+          &:nth-child(3) {
+            .list-item {
+              background-position: -126px -5px;
+            }
+          }
+
+          &:nth-child(4) {
+            .list-item {
+              background-position: -190px -5px;
+            }
+          }
+
+          &:nth-child(5) {
+            .list-item {
+              background-position: 0px -76px;
+            }
+          }
+
+          &:nth-child(6) {
+            .list-item {
+              background-position: -62px -76px;
+            }
+          }
+
+          &:nth-child(7) {
+            .list-item {
+              background-position: -126px -76px;
+            }
+          }
+
+          &:nth-child(8) {
+            .list-item {
+              background-position: -190px -76px;
+            }
+          }
+
+          &:nth-child(9) {
+            .list-item {
+              background-position: 0px -146px;
+            }
+          }
+
+          &:nth-child(10) {
+            .list-item {
+              background-position: -62px -146px;
+            }
+          }
+
+          &:nth-child(11) {
+            .list-item {
+              background-position: -126px -146px;
+            }
+          }
+
+          &:nth-child(12) {
+            .list-item {
+              background-position: -190px -146px;
+            }
+          }
+        }
+      }
+
+      .ads {
+        margin-top: 5px;
+
+        img {
+          opacity: 0.8;
+          transition: all 400ms;
+
+          &:hover {
+            opacity: 1;
           }
         }
       }
