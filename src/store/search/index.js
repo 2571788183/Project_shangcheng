@@ -18,8 +18,20 @@ const actions = {
     }
   }
 };
-//计算属性，在项目当中，为了简化数据而生。
-const getters = {};
+//计算属性，在项目当中，为了简化仓库中的数据而生。
+const getters = {
+  //当前形参state是当前仓库支中的state，并非大仓库中的state
+  goodsList(state) {
+
+    return state.searchList.goodsList;
+  },
+  trademarkList(state) {
+    return state.searchList.trademarkList;
+  },
+  attrsList(state) {
+    return state.searchList.attrsList;
+  }
+};
 
 export default {
   state,
