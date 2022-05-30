@@ -1,8 +1,6 @@
-
 //配置路由
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
 //使用插件
 Vue.use(VueRouter);
 import Home from '@/pages/Home'
@@ -46,7 +44,7 @@ export default new VueRouter({
       meta: { showFooter: true }  //路由元信息
     },
     {
-      path: "/search/:keyWord?",// ？ params参数可传可不传
+      path: "/search/:keyword?",// ？ params参数可传可不传
       component: Search,
       name: "search",
       meta: { showFooter: true }

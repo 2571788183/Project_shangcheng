@@ -12,15 +12,29 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <!-- 分类的面包屑 -->
+            <li class="with-x" v-if="searchParams.categoryName">{{ searchParams.categoryName }}
+              <i @click="removeCategoryName"> x</i>
+            </li>
+            <!-- 关键字的面包屑 -->
+            <li class="with-x" v-if="searchParams.keyword">{{ searchParams.keyword }}
+              <i @click="removekeyWord"> x</i>
+            </li>
+            <!-- 品牌的面包屑 -->
+            <li class="with-x" v-if="searchParams.trademark">{{ searchParams.trademark.split(":")[1] }}
+              <i @click="removeTradeMark"> x</i>
+            </li>
+            <!-- 平台的售卖的属性值的展示 -->
+            <li class="with-x" v-for="(attrValue, index) in searchParams.props" :key="index">{{
+                attrValue.split(":")[1]
+            }}
+              <i @click="removeAttr(index)"> x</i>
+            </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @trademarkInfo="trademarkInfo" @attrInfo="attrInfo" />
 
         <!--details-->
         <div class="details clearfix">
@@ -132,7 +146,7 @@ export default {
         keyword: "",
         order: "1:desc",
         pageNo: 1,
-        pageSize: 4,
+        pageSize: 10,
         props: [],
         trademark: ""
       }
@@ -150,6 +164,7 @@ export default {
   mounted() {
     // //在发送请求之前带给服务器参数【searchParams参数发生变化的数值带给服务器】
     // this.getData();放到watch中去，每次路由变化都可发送请求
+    this.getData();
   },
   computed: {
     //mapGetters里面的写法传递的是数组
@@ -159,6 +174,60 @@ export default {
     //向服务器发请求获取search模块数据（根据参数不同返回不同的参数进行展示）
     getData() {
       this.$store.dispatch('getSearchList', this.searchParams);
+    },
+    //删除分类的名字
+    removeCategoryName() {
+      //带给服务器的数据置空了,如果数据可有可无，则设置为undefined不会把参数带给服务器
+      this.searchParams.categoryName = undefined;
+      this.searchParams.category1Id = undefined;
+      this.searchParams.category2Id = undefined;
+      this.searchParams.category3Id = undefined;
+      //再次调用，更新界面
+      this.getData();
+      //地址栏也要改，进行路由跳转,但是路径中出现params参数，不应该删除，而是在路由跳转的时候带着
+      if (this.$route.params) {
+        this.$router.push({ name: "search", params: this.$route.params });
+      }
+    },
+    //删除关键字
+    removekeyWord() {
+      //给服务器带的参数searchParams的keyWord置空
+      this.searchParams.keyword = undefined;
+      //再次发请求
+      this.getData();
+      //通知兄弟组件MyHeader清除关键字
+      this.$bus.$emit("clear");
+      //路由跳转
+      if (this.$route.query) {
+        this.$router.push({ name: "search", query: this.$route.query });
+      }
+    },
+    //自定义事件的回调
+    trademarkInfo(trademark) {
+      //1:整理品牌字段的参数，“ID:品牌名称”
+      console.log("发送了", this.searchParams);
+      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
+      //再次发送请求
+      this.getData();
+    },
+    //删除品牌信息
+    removeTradeMark() {
+      this.searchParams.trademark = undefined;
+      this.getData();
+    },
+    //收集平台属性的回调(自定义事件)
+    attrInfo(attr, attrValue) {
+      // ["属性ID:属性值:属性名"]
+      let props = `${attr.attrId}:${attrValue}:${attr.attrName}`
+      //数组去重
+      if (this.searchParams.props.indexOf(props) == -1) this.searchParams.props.push(props);
+      //再次发请求
+      this.getData();
+    },
+    //删除售卖属性面包屑
+    removeAttr(index) {
+      this.searchParams.props.splice(index, 1);
+      this.getData();
     }
   },
   //数据监听：监听组价实例身上的属性的属性值的变化
@@ -166,7 +235,13 @@ export default {
     //监听属性
     $route(newValue, oldValue) {
       //再次发送请求之前整理给服务器参数
+      Object.assign(this.searchParams, this.$route.query, this.$route.params);
+      //再次发送ajax请求
       this.getData();
+      //每一次请求完毕，应该把相应的1、2、3级分类的id置空
+      this.searchParams.category1Id = '';
+      this.searchParams.category2Id = '';
+      this.searchParams.category3Id = '';
     }
   }
 }

@@ -24,8 +24,11 @@ Vue.config.productionTip = false
 
 new Vue({
   render: h => h(App),
+  //全局事件总线$bus
+  beforeCreate() {
+    Vue.prototype.$bus = this;
+  },
   //註冊路由：底下的写法是K_V一致省略V【router的小写】
-
   router,
   //注册路由信息，组件的身上都会有$route,$router属性
   router,
